@@ -35,19 +35,23 @@
         <div id="code">
           <font color="#FF0000"> <span class="say">渡的过山河星辰，淌不过你的一笑一颦</span><br>
             <span class="say"> </span><br>
-            <span class="say"> 经丘寻壑不及你，尾生抱柱也无悔意</span><br>
+            <span class="say">经丘寻壑不及你，尾生抱柱也无悔意</span><br>
             <span class="say"></span><br>
-            <span class="say">傻猪猪，我爱你，虽然你说我没有给你一个仪式感的告白</span><br>
+            <span class="say">你知道吗</span><br>
             <span class="say"></span><br>
-            <span class="say">我知道我现在还没有多大的能力可以给你带来什么</span><br>
+            <span class="say">喜欢你开心时灵动的眼睛</span><br>
             <span class="say"></span><br>
-            <span class="say">但是我会用行动证明一切！</span><br>
+            <span class="say">喜欢你钻到我上衣里嬉闹</span><br>
             <span class="say"></span><br>
-            <span class="say">我们会有更好的未来！</span><br>
+            <span class="say">喜欢你撒娇的说(大喊)我(脱)爱(裤)你(子)</span><br>
             <span class="say"></span><br>
-            <span class="say"> 不要忘记了，说好了要养你一辈子的呀</span><br>
+            <span class="say">很幸运遇见你，我冬日里的暖阳</span><br>
             <span class="say"></span><br>
-            <span class="say"> 我们的路还很长，一起努力走下去，为了我们更好的未来！</span><br>
+            <span class="say">抬头望，桃花依然红，柳丝照旧绿</span><br>
+            <span class="say"></span><br>
+            <span class="say">低头看，青草又发芽，水流还向东</span><br>
+            <span class="say"></span><br>
+            <span class="say">谨此，还望夫人往后余生多多指教</span><br>
             <span class="say"></span><br>
             <span class="say"></span><br>
             <span class="say"><span class="space"></span> --- 爱你的猪猪 --- </span> </font>
@@ -55,10 +59,11 @@
         </div>
       </div>
       <div id="clock-box"> <span class="STYLE1"></span>
-        <font color="#ff5e04">可爱的小猪猪，我喜欢你</font> <span class="STYLE1">已经是……</span>
+        <font color="#ff5e04">可爱的猪猪，我们拱再一起的……</font>
         <div id="clock"></div>
       </div>
       <canvas id="canvas" width="1100" height="680"></canvas>
+      <canvas id='cavs' width="1100" height="680"></canvas>
     </div>
   </div>
   <script>
@@ -192,11 +197,11 @@
 
       var textAnimate = eval(Jscex.compile("async", function () {
         var together = new Date();
-        together.setFullYear(2020, 2, 27); 			//时间年月日
-        together.setHours(16);						//小时	
-        together.setMinutes(53);					//分钟
+        together.setFullYear(2020, 9, 30); 			//时间年月日
+        together.setHours(0);						//小时	
+        together.setMinutes(0);					//分钟
         together.setSeconds(0);					//秒前一位
-        together.setMilliseconds(2);				//秒第二位
+        together.setMilliseconds(0);				//秒第二位
 
         $("#code").show().typewriter();
         $("#clock-box").fadeIn(500);
@@ -220,6 +225,84 @@
       runAsync().start();
     })();
   </script>
+  <script type="text/javascript">
+    var canvas = document.getElementById("cavs");
+    const WIDTH = window.innerWidth;
+    const HEIGHT = window.innerHeight;
+    canvas.setAttribute("width", WIDTH);
+    canvas.setAttribute("height", HEIGHT);
+    var context = canvas.getContext("2d");
+    var start =
+    {
+        loves: [],
+        DURATION: 30,
+        begin: function()
+        {
+            this.createLove();
+        },
+        createLove: function()
+        {
+            for (var i = 0; i < WIDTH / 59; i++)
+            {
+                var love = new Love();
+                this.loves.push(love);
+            }
+            setInterval(this.drawLove.bind(this), this.DURATION);
+        },
+        drawLove: function()
+        {
+            context.clearRect(0, 0, WIDTH, HEIGHT);
+            for (var key in this.loves)
+            {
+                this.loves[key].draw();
+            }
+        }
+    }
+    function Love()
+    {
+        var me = this;
+        function rand() 
+        {
+            me.maxScale = (Math.random() * 3.2 + 1.2) * WIDTH / 521;
+            me.curScale = 1.2 * WIDTH / 521;
+            me.x = Math.floor(Math.random() * WIDTH - 40);
+            me.y = Math.floor(HEIGHT - Math.random() * 200);
+            me.ColR = Math.floor(Math.random() * 255);
+            me.ColG = Math.floor(Math.random() * 255);
+            me.ColB = Math.floor(Math.random() * 255);
+            me.alpha = Math.random() * 0.2 + 0.8;
+            me.vector = Math.random() * 5 + 0.4;
+        }
+        (function(){rand();} ());
+        me.draw = function()
+        {
+            if (me.alpha < 0.01) rand();
+            if(me.curScale < me.maxScale) me.curScale += 0.3;
+            x = me.x;
+            y = me.y;
+            scale = me.curScale;
+            context.fillStyle = "rgba(" + me.ColR + "," + me.ColG + "," + me.ColB + "," + me.alpha + ")";
+            context.shadowBlur = 10;
+            context.shadowColor = "rgb(" + me.ColR + "," + me.ColG + "," + me.ColB + ")";
+            context.beginPath();
+            context.bezierCurveTo( x + 2.5*scale, y + 2.5*scale, x + 2.0*scale, y, x, y );
+            context.bezierCurveTo( x - 3.0*scale, y, x - 3.0*scale, y + 3.5*scale,x - 3.0*scale,y + 3.5*scale );
+            context.bezierCurveTo( x - 3.0*scale, y + 5.5*scale, x - 1.0*scale, y + 7.7*scale, x + 2.5*scale, y + 9.5*scale );
+            context.bezierCurveTo( x + 6.0*scale, y + 7.7*scale, x + 8.0*scale, y + 5.5*scale, x + 8.0*scale, y + 3.5*scale );
+            context.bezierCurveTo( x + 8.0*scale, y + 3.5*scale, x + 8.0*scale, y, x + 5.0*scale, y );
+            context.bezierCurveTo( x + 3.5*scale, y, x + 2.5*scale, y + 2.5*scale, x + 2.5*scale, y + 2.5*scale );
+            context.fill();
+            context.closePath();
+            me.y -= me.vector;
+            me.alpha -= (me.vector / 2.9 * 3.5 / HEIGHT);
+        }
+    }
+    window.onload = function()
+    {
+        start.begin();
+    }
+    </script>
+
 </body>
 
 </html>
